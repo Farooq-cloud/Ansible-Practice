@@ -1,0 +1,37 @@
+Add a local host in /etc/ansible/hosts
+
+# ansible localhost -m ping 
+
+* if you run this command it throws error because we havent created user.
+* That the reason we have created a user called ansible.
+
+# sudo useradd ansible
+# sudo /etc/ssh/sshd_cnfig > password authentication > yes
+# sudo systemctl restart sshd
+# ansible localhost -m ping -u ansible --ask-pass
+
+Note: if after given password also failing to login. Use below command
+
+# export ANSIBLE_REMOTE_TEMP=/tmp/ansible-temp
+
+* if you want to login to specific user use below command. We should pass the user name in hosts file like ansible_user=ansible
+
+# ansible localhost -m ping --ask-pass
+
+* if you want to login to without password to  user use below command. We should add the password of the user name in hosts file like ansible_ssh_pass=lovedreams@143
+
+# ansible localhost -m ping
+
+* if you want to login to the user using ssh. First copy the pem key and paste in the server.
+
+# ansible localhost -m ping --key-file <path of the key file present>
+
+* If you want to access the remote server from ansible. Create a new instance and copy the public ip address in the /etc/ansible/hosts path.
+
+# 3.110.183.102 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/key
+
+* To check the access from ansible server to remote server use below command
+# ansible remote -a "cat /etc/hostname"
+# ansible local -a "cat /etc/hostname"
+# ansible all -a "cat /etc/hostname"
+# ansible -i /home/ubuntu/ansible/hosts all -m ping  (Command fro our own inventory file)

@@ -1,0 +1,34 @@
+Modules are discrete units of code (already written and we can use them directly) that can be 
+used from command line or in a playbook.
+• Most of the modules take key=value arguments.
+• Some common modules -
+ * Module: ping 
+ Purpose:Verify Ansible connectivity between hosts. Arguments: None
+
+ * Module: setup 
+ Purpose: Collect Ansible facts. Arguments: None
+*  Module: yum 
+ Purpose: Install software with yum. Arguments: name= state=
+
+* Module: service 
+ Purpose: Control service daemons. Arguments: name= state=
+
+* Module: copy 
+ Purpose: Copy a file to a particular location on a target host. Arguments: src= dest=
+
+* Installing apache2 from home user to remote user using below commands in ubuntu server.
+
+# ansible remote -b -m apt -a "name=apache2 state=present"
+# dpkg -l | grep apache2
+
+* To remove the package from the remote server use below command.
+
+# ansible remote -b -m apt -a "name=apache2 state=absent"
+# dpkg -l | grep apache2
+
+* To create a file using moudules.Use below command
+
+# ansible localhost -m file -a "path=/home/ubuntu/ansible/testfile state=touch"
+
+# ansible localhost -m file -a "path=/home/ubuntu/ansible/testfile state=absent" (to remove)
+ 

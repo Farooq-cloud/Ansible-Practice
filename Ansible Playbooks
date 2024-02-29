@@ -1,0 +1,67 @@
+* If you need to execute a task with Ansible more than once, write a playbook and put it under source control.
+* Ansible Playbooks offer a repeatable, re-usable, simple configuration management.
+* We can write multiple plays in the same playbook to execute them on remote hosts.
+* Playbooks sometimes referred as a blueprint of tasks which can be used to automate the complex and time consuming IT actions with limited or no human involvement.
+* Playbooks are written in YAML syntax
+
+
+- hosts: remote
+  become: true
+  tasks:
+    - name: Installing apache2 service
+      apt:
+        name: apache2
+        state: present
+
+    - name: starting apache2 service
+      service:
+        name: apache2
+        state: started
+
+    - name: Create a testfile in temp folder
+      file:
+        path: /tmp/ansible-test-file
+        state: touch
+
+    - name: copy the hosts file from local to remote
+      copy:
+        src: /home/ubuntu/ansible/hosts
+        dest: /tmp/hosts
+
+
+* command to run the ansible playbook is down below
+# ansible-playbook <playbook name>
+
+* Creating a user in the remote server using ansible-playbook
+ 
+  vi create_user.yml
+
+- hosts: remote
+  become: true
+  tasks:
+    - name: creating user
+      user: 
+        name: tom 
+
+
+* In loop
+
+- hosts: remote
+  become: true
+  tasks: 
+    - name: Installing service
+      apt: 
+        name: "{{ item }}"
+        state: present
+      loop:
+        - elinks
+        - apache2
+        - traceroute
+
+    - name: Creating users
+      user:
+        name: "{{ item }}"
+      loop:
+        - tom
+        - jerry
+        - bob  

@@ -1,0 +1,14 @@
+- hosts: remote
+  become: true
+  vars:
+    package: nginx
+  tasks: 
+    - name: Installing service
+      apt: 
+        name: "{{ package }}"
+        state: present
+
+    - name: Starting service
+      service:
+        name: "{{ package }}"
+        state: started
